@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns: xmlns:th="http://www.w3.org/1999/xhtml" th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+
+<form action="/customer/create"  method="post" th:object="${customer}">
+    <table>
+        <tr><td><input type="hidden" th:field="*{id}"/></td></tr>
+        <tr>
+            <td>Name</td>
+            <td><input type="text"  th:field="*{name}"></td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td><input type="text"  th:field="*{phone}"></td>
+        </tr>
+        <tr>
+            <td>Province</td>
+            <td> <select th:field="*{province}">
+                <th:block th:each="c: ${provinceList}">
+                    <option th:value="${c.id}" th:text="${c.name}"></option>
+                </th:block>
+            </select>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Submit"></td>
+        </tr>
+    </table>
+</form>
+
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>
