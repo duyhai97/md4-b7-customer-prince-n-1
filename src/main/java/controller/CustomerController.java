@@ -4,6 +4,8 @@ import model.Customer;
 import model.Province;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,10 +47,16 @@ public class CustomerController {
     }
 
     @PostMapping("/create")
-    public ModelAndView createCustomer(Customer customer){
-        ModelAndView modelAndView = new ModelAndView("redirect:/customer");
-        this .customerService.save(customer);
-        return modelAndView;
+    public ModelAndView checkValidation(@Validated @ModelAttribute("customer") Customer customer, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+
+            return new ModelAndView("/create");
+        }
+        else {
+            this.customerService.save(customer);
+            return new ModelAndView("redirect:/customer");
+        }
     }
+
 
 }
